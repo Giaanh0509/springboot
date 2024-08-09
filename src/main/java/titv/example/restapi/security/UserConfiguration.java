@@ -20,8 +20,9 @@ public class UserConfiguration {
     @Bean
     @Autowired
     public JdbcUserDetailsManager jdbcUserDetailsManager (DataSource dataSource) {
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager();
-        userDetailsManager.setDataSource(dataSource);
+        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        userDetailsManager.setUsersByUsernameQuery("select id, pw, active from accounts where id=?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("select id, role from roles where id=?");
         return userDetailsManager;
     }
 
